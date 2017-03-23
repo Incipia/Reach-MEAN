@@ -1,6 +1,6 @@
 {
-  "name": "meanjs",
-  "description": "Fullstack JavaScript with MongoDB, Express, AngularJS, and Node.js.",
+  "name": "algolytics",
+  "description": "Account management and analytical tools.",
   "homepage": "http://meanjs.org/",
   "license": "MIT",
   "dependencies": {
