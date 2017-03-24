@@ -1,11 +1,11 @@
 {
-  "name": "algolytics",
+  "name": "incipiatemplate",
   "description": "Account management and analytical tools.",
   "version": "0.4.2",
   "meanjs-version": "0.4.2",
-  "private": false,
+  "private": true,
   "author": "Incipia",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/meanjs/mean.git"
@@ -17,7 +17,7 @@
   "scripts": {
     "start": "grunt",
     "test": "grunt test",
-    "postinstall": "bower install --config.interactive=false"
+    "postinstall": "lm link -f --dir node; bower install --config.interactive=false"
   },
   "dependencies": {
     "acl": "~0.4.4",
@@ -59,6 +59,7 @@
     "passport-paypal-openidconnect": "^0.1.1",
     "passport-twitter": "^1.0.2",
     "phantomjs": ">=1.9.0",
+    "python-shell": "^0.4.0",
     "serve-favicon": "^2.3.0",
     "socket.io": "^1.3.7",
     "swig": "^1.4.2",
@@ -114,6 +115,7 @@
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "~0.2.0",
     "load-grunt-tasks": "^3.2.0",
+    "local_modules": "^1.0.8",
     "mock-fs": "~3.4.0",
     "run-sequence": "^1.1.1",
     "should": "^7.0.1",

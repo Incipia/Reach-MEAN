@@ -1,0 +1,3 @@
+[submodule "python/search_ads"]
+	path = python/search_ads
+	url = https://github.com/BendingSpoons/searchads-api.git

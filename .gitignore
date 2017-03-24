@@ -1,4 +1,3 @@
-# OS
 # ===========
 .DS_Store
 ehthumbs.db
@@ -72,3 +71,10 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+
+# Submodule Environments
+# =========
+/python/environment/
+
+/credentials/*
+!/credentials/README.md

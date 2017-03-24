@@ -1,0 +1,22 @@
+section.template-form-form(ng-controller='FormController')
+  .page-header
+    h1 Search Ads Accounts Report
+  .col-md-12
+    form.form-horizontal(name='templateForm' ng-submit='query(form)' novalidate)
+      mixin textInput(name, title)
+        label(for=name)= title
+        input.form-control(name=name id=name type='text' ng-model='form.' + name)  
+      mixin dateInput(name, title)
+        label(for=name)= title
+        input.form-control(name=name id=name type='date' ng-model='form.' + name)
+      fieldset
+        .form-group
+          label(for='select') Dropdown
+          select(name='select' ng-model='form.select')
+            option(value='Option 1') First Option
+            option(value='Option 2') Second Option
+          +dateInput('date', 'Date')
+        .form-group
+          +textInput('text', 'Text')
+          input.btn.btn-default(type='submit' value='Generate report' ng-hide='querying')
+          .query-status(ng-show='querying') Generating ...

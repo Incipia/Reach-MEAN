@@ -16,7 +16,8 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
-        'public/lib/owasp-password-strength-test/owasp-password-strength-test.js'
+        'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/angular-file-saver/dist/angular-file-saver.bundle.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
@@ -49,6 +50,7 @@ module.exports = {
     config: 'modules/*/server/config/*.js',
     policies: 'modules/*/server/policies/*.js',
     views: 'modules/*/server/views/*.html',
-    pugViews: ['modules/*/server/views/*.pug']
+    pugViews: ['modules/*/server/views/*.pug'],
+    localModules: ['node/**/*.js']
   }
 };

@@ -1,3 +1,201 @@
+# Incipia MEAN Template
+
+Incipia MEAN Template is a seed template for projects using the MEAN stack.
+
+## Install
+
+### Submodules
+
+Install `git` submodules from the project root directory.
+
+```bash
+git submodule init
+git submodule update
+
+```
+
+### NodeJS
+
+Use the package manager as `root`.
+
+```bash
+curl -sL https://deb.nodesource.com/setup_6.x | bash -
+apt-get install nodejs
+```
+
+- [NodeJS Instructions](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
+
+### MongoDB
+
+Install as `root`.
+
+```bash
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+apt-get update
+apt-get install mongodb-org
+```
+
+To start the `mongod` service
+
+```bash
+systemctl enable mongod
+systemctl start mongod
+# verify success
+cat /var/log/mongodb/mongod.log
+# stop or restart as needed
+service mongod stop
+service mongod restart
+```
+
+- [MongoDB Ubuntu Installation](https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/)
+
+### Ruby
+
+Install `ruby` and the `sass` gem as `root` for CSS transpiling.
+
+```bash
+apt-get update
+apt-get install ruby
+gem install sass
+```
+
+### R (Optional)
+
+Install `R` as `root` for statistical tools.
+
+```bash
+echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list
+gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+gpg -a --export E084DAB9 | sudo apt-key add -
+apt-get update
+apt-get install r-base
+# verify that R was installed
+R --version
+# install system dependencies for the R devtools packages
+apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
+```
+
+Install R packages as the user hosting IncipiaTemplate
+
+```R
+# In R
+
+# CRAN packages
+install.packages("devtools")
+
+# devtools packages
+library(devtools)
+devtools::install_github('adjust/api-client-r')
+```
+
+- [R](https://www.r-project.org/)
+- [R ubuntu](https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04)
+- [devtools](https://www.digitalocean.com/community/tutorials/how-to-install-r-packages-using-devtools-on-ubuntu-16-04)
+- [Adjust R Client](https://github.com/adjust/api-client-r)
+
+### Python (Optional)
+
+Install `python3` as `root` for statistical tools, if it is not already installed.
+
+```bash
+# show info and installed status for python3
+apt-cache show python3
+apt-cache policy python3
+# install python3 if necessary
+apt-get update
+apt-get install python3
+```
+
+#### Virtual environment
+
+Install a virtual Python environment from the project root directory with the required project dependencies.
+
+```bash
+python3 -m venv python/environment
+source python/environment/bin/activate
+# the command prompt should indicate an active environment
+pip install -r python/requirements.txt
+deactivate
+```
+
+## Systemd service
+
+Run the IncipiaTemplate server as a Systemd service.
+
+### Install
+
+Use the root user to copy the .service files in this directory to the the systemd system directory.
+
+```bash
+cp scripts/incipiatemplate.service /etc/systemd/system/
+```
+
+Edit the installed service file to
+
+- Set the correct project root path to the root of this repository.
+- Run the daemon as the correct user and group (the user who owns this repository)
+
+Then reload the daemon.
+
+```bash
+vi /etc/systemd/system/incipiatemplate.service
+systemctl daemon-reload
+```
+
+### Run
+
+Run the daemon as a service
+
+```bash
+# start the daemon
+systemctl start incipiatemplate
+# check the daemon status
+systemctl status incipiatemplate
+# restart the daemon
+systemctl reload incipiatemplate
+# fully restart the daemon
+systemctl restart incipiatemplate
+# stop the daemon
+systemctl stop incipiatemplate
+# enable the daemon to start on boot
+systemctl enable incipiatemplate
+# check whether the daemon is enabled
+systemctl is-enabled incipiatemplate
+```
+
+## SSH Tunneling
+
+Access the remote development server via an SSH tunnel by binding a local port to the remote server port.
+
+### Install
+
+Copy the SSH tunnel script to a convenient location
+
+```bash
+cp scripts/ssh-tunnel.sh ~/incipiatemplate-tunnel.sh
+```
+
+Edit the tunnel script to
+
+- Set the correct remote user and host.
+
+Optionally on OS X, change the script file extension to `.command` to allow it to be launched from Finder.
+
+### Run
+
+Run the script to open an SSH tunnel and open the site in your default browser.
+
+```bash
+~/incipiatemplate-tunnel.sh
+```
+
+Close the tunnel by typing the `logout` command in the script shell.
+
+# MEAN.JS
+
+IncipiaTemplate is built on the MEAN.JS seed project. See documentation below.
+
 [![MEAN.JS Logo](http://meanjs.org/img/logo-small.png)](http://meanjs.org/)
 
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/meanjs/mean?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -18,7 +216,7 @@ Before you begin we recommend you read about the basic building blocks that asse
 ## Prerequisites
 Make sure you have installed all of the following prerequisites on your development machine:
 * Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager. If you encounter any problems, you can also use this [GitHub Gist](https://gist.github.com/isaacs/579814) to install Node.js.
-  * Node v5 IS NOT SUPPORTED AT THIS TIME! 
+  * Node v5 IS NOT SUPPORTED AT THIS TIME!
 * MongoDB - [Download & Install MongoDB](http://www.mongodb.org/downloads), and make sure it's running on the default port (27017).
 * Ruby - [Download & Install Ruby](https://www.ruby-lang.org/en/documentation/installation/)
 * Bower - You're going to use the [Bower Package Manager](http://bower.io/) to manage your front-end packages. Make sure you've installed Node.js and npm first, then install bower globally using npm:
@@ -176,7 +374,7 @@ or
 $ gulp default
 ```
 
-The server is now running on http://localhost:3000 if you are using the default settings. 
+The server is now running on http://localhost:3000 if you are using the default settings.
 
 ### Running Gulp Development Environment
 
@@ -276,7 +474,7 @@ for hosting applications in the cloud.  After you have an account follow the bel
 * Deploy MEANJS to Cloud Foundry
   * `$ cf push`
 
-After `cf push` completes you will see the URL to your running MEANJS application 
+After `cf push` completes you will see the URL to your running MEANJS application
 (your URL will be different).
 
     requested state: started
@@ -300,25 +498,3 @@ your changes to Bluemix.
 ## Credits
 Inspired by the great work of [Madhusudhan Srinivasa](https://github.com/madhums/)
 The MEAN name was coined by [Valeri Karpov](http://blog.mongodb.org/post/49262866911/the-mean-stack-mongodb-expressjs-angularjs-and)
-
-## License
-(The MIT License)
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
