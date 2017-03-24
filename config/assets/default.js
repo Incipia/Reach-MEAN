@@ -36,6 +36,7 @@ module.exports = {
       'modules/*/client/**/*.js'
     ],
     views: ['modules/*/client/views/**/*.html'],
+    pugViews: ['modules/*/client/views/**/*.pug'],
     templates: ['build/templates.js']
   },
   server: {
@@ -47,6 +48,7 @@ module.exports = {
     sockets: 'modules/*/server/sockets/**/*.js',
     config: 'modules/*/server/config/*.js',
     policies: 'modules/*/server/policies/*.js',
-    views: 'modules/*/server/views/*.html'
+    views: 'modules/*/server/views/*.html',
+    pugViews: ['modules/*/server/views/*.pug']
   }
 };

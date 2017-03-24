@@ -9,7 +9,6 @@ var _ = require('lodash'),
   testConfig = require('./config/env/test'),
   fs = require('fs'),
   path = require('path');
-
 module.exports = function (grunt) {
   // Project Configuration
   grunt.initConfig({
@@ -32,6 +31,10 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
+      serverPugViews: {
+        files: defaultAssets.server.pugViews,
+        tasks: ['pug']
+      },
       serverJS: {
         files: _.union(defaultAssets.server.gruntConfig, defaultAssets.server.allJS),
         tasks: ['jshint'],
@@ -44,6 +47,10 @@ module.exports = function (grunt) {
         options: {
           livereload: true
         }
+      },
+      clientPugViews: {
+        files: defaultAssets.client.pugViews,
+        tasks: ['pug']
       },
       clientJS: {
         files: defaultAssets.client.js,
@@ -158,6 +165,20 @@ module.exports = function (grunt) {
           ext: '.css',
           rename: function (base, src) {
             return src.replace('/less/', '/css/');
+          }
+        }]
+      }
+    },
+    pug: {
+      options: {
+        pretty: true
+      },
+      compile: {
+        files: [{
+          expand: true,
+          src: _.union(defaultAssets.client.pugViews, defaultAssets.server.pugViews),
+          rename: function (base, src) {
+            return src.replace(/\.pug$/, '.html');
           }
         }]
       }
@@ -300,7 +321,7 @@ module.exports = function (grunt) {
   grunt.registerTask('lint', ['sass', 'less', 'jshint', 'eslint', 'csslint']);
 
   // Lint project files and minify them into two production files.
-  grunt.registerTask('build', ['env:dev', 'lint', 'ngAnnotate', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['env:dev', 'lint', 'pug', 'ngAnnotate', 'uglify', 'cssmin']);
 
   // Run the project tests
   grunt.registerTask('test', ['env:test', 'lint', 'mkdir:upload', 'copy:localConfig', 'server', 'mochaTest', 'karma:unit', 'protractor']);
@@ -311,10 +332,10 @@ module.exports = function (grunt) {
   grunt.registerTask('coverage', ['env:test', 'lint', 'mocha_istanbul:coverage', 'karma:unit']);
 
   // Run the project in development mode
-  grunt.registerTask('default', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+  grunt.registerTask('default', ['env:dev', 'lint', 'pug', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
 
   // Run the project in debug mode
-  grunt.registerTask('debug', ['env:dev', 'lint', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug']);
+  grunt.registerTask('debug', ['env:dev', 'lint', 'pug', 'mkdir:upload', 'copy:localConfig', 'concurrent:debug']);
 
   // Run the project in production mode
   grunt.registerTask('prod', ['build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
