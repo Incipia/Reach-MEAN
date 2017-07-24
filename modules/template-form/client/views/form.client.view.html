@@ -1,0 +1,27 @@
+
+<section class="template-form-form" ng-controller="FormController">
+  <div class="page-header">
+    <h1>Search Ads Accounts Report</h1>
+  </div>
+  <div class="col-md-12">
+    <form class="form-horizontal" name="templateForm" ng-submit="query(form)" novalidate="novalidate">
+      <fieldset>
+        <div class="form-group">
+          <label for="select">Dropdown</label>
+          <select name="select" ng-model="form.select">
+            <option value="Option 1">First Option</option>
+            <option value="Option 2">Second Option</option>
+          </select>
+                <label for="date">Date</label>
+                <input class="form-control" name="date" id="date" type="date" ng-model="form.date"/>
+        </div>
+        <div class="form-group">
+                <label for="text">Text</label>
+                <input class="form-control" name="text" id="text" type="text" ng-model="form.text"/>
+          <input class="btn btn-default" type="submit" value="Generate report" ng-hide="querying"/>
+          <div class="query-status" ng-show="querying">Generating ...</div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>

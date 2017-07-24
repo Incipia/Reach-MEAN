@@ -1,0 +1,9 @@
+section.template-form-form label {
+  display: block;
+  margin-top: 10px; }
+section.template-form-form input[type=submit] {
+  margin-top: 24px; }
+section.template-form-form .query-status {
+  margin-top: 30px; }
+
+/*# sourceMappingURL=template-form.css.map */
