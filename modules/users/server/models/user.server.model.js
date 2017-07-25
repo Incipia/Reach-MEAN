@@ -32,13 +32,13 @@ var UserSchema = new Schema({
     type: String,
     trim: true,
     default: '',
-    validate: [validateLocalStrategyProperty, 'Please fill in your first name']
+    // validate: [validateLocalStrategyProperty, 'Please fill in your first name']
   },
   lastName: {
     type: String,
     trim: true,
     default: '',
-    validate: [validateLocalStrategyProperty, 'Please fill in your last name']
+    // validate: [validateLocalStrategyProperty, 'Please fill in your last name']
   },
   displayName: {
     type: String,
@@ -61,7 +61,7 @@ var UserSchema = new Schema({
   },
   password: {
     type: String,
-    default: ''
+    required: true
   },
   salt: {
     type: String
@@ -118,7 +118,9 @@ UserSchema.pre('save', function (next) {
 UserSchema.pre('validate', function (next) {
   if (this.provider === 'local' && this.password && this.isModified('password')) {
     var result = owasp.test(this.password);
-    if (result.errors.length) {
+    if (this.password.trim() === '') {
+      this.invalidate('password', 'Your password cannot contain only spaces.');
+    } else if (!result.strong && result.errors.length) {
       var error = result.errors.join(' ');
       this.invalidate('password', error);
     }
@@ -177,7 +179,7 @@ UserSchema.statics.generateRandomPassphrase = function () {
     var password = '';
     var repeatingCharacters = new RegExp('(.)\\1{2,}', 'g');
 
-    // iterate until the we have a valid passphrase. 
+    // iterate until the we have a valid passphrase.
     // NOTE: Should rarely iterate more than once, but we need this to ensure no repeating characters are present.
     while (password.length < 20 || repeatingCharacters.test(password)) {
       // build the random password
@@ -194,7 +196,7 @@ UserSchema.statics.generateRandomPassphrase = function () {
     }
 
     // Send the rejection back if the passphrase fails to pass the strength test
-    if (owasp.test(password).errors.length) {
+    if (!owasp.test(password).strong) {
       reject(new Error('An unexpected problem occured while generating the random passphrase'));
     } else {
       // resolve with the validated passphrase

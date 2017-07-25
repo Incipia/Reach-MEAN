@@ -6,7 +6,17 @@
 var passport = require('passport'),
   User = require('mongoose').model('User'),
   path = require('path'),
-  config = require(path.resolve('./config/config'));
+  config = require(path.resolve('./config/config')),
+  owasp = require('owasp-password-strength-test');
+
+// Configure owasp
+owasp.config({
+  allowPassphrases       : false,
+  maxLength              : 128,
+  minLength              : 1,
+  minPhraseLength        : 10,
+  minOptionalTestsToPass : 1,
+});
 
 /**
  * Module init function.
